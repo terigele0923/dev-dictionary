@@ -1,0 +1,13 @@
+/.env
+/.DS_Store
+Thumbs.db
+
+/storage/logs/*.log
+/storage/data/*.sqlite
+/storage/data/*.db
+
+/vendor/
+/node_modules/
+
+.idea/
+.vscode/
