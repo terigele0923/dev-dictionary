@@ -24,7 +24,12 @@ use App\Helpers\Env;
 use App\Helpers\Logger;
 use App\Helpers\Session;
 
-Env::load(dirname(__DIR__) . '/.env');
+$envPath = dirname(__DIR__) . '/.env';
+if (!is_file($envPath) && is_file(dirname(__DIR__) . '/.env.example')) {
+    $envPath = dirname(__DIR__) . '/.env.example';
+}
+
+Env::load($envPath);
 Session::start();
 
 date_default_timezone_set('Asia/Tokyo');

@@ -11,8 +11,8 @@ return [
         'host' => env('DB_HOST', '127.0.0.1'),
         'port' => env('DB_PORT', '3306'),
         'database' => env('DB_NAME', 'dev_dictionary'),
-        'username' => env('DB_USER', 'root'),
-        'password' => env('DB_PASS', ''),
+        'username' => env('DB_USER', 'terigele'),
+        'password' => env('DB_PASS', '123456'),
         'charset' => 'utf8mb4',
     ],
 ];

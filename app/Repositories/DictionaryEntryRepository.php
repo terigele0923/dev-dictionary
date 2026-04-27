@@ -97,7 +97,25 @@ final class DictionaryEntryRepository extends BaseRepository
                     updated_by = :updated_by
                 WHERE entry_id = :entry_id AND user_id = :user_id AND deleted_at IS NULL';
         $stmt = $this->pdo()->prepare($sql);
-        $stmt->execute($data + ['entry_id' => $entryId, 'user_id' => $userId]);
+        $stmt->execute([
+            'category_id' => $data['category_id'],
+            'title' => $data['title'],
+            'slug' => $data['slug'],
+            'problem_summary' => $data['problem_summary'],
+            'root_cause' => $data['root_cause'],
+            'check_points' => $data['check_points'],
+            'command_examples' => $data['command_examples'],
+            'solution_summary' => $data['solution_summary'],
+            'caution_notes' => $data['caution_notes'],
+            'status' => $data['status'],
+            'priority_level' => $data['priority_level'],
+            'version_no' => $data['version_no'],
+            'published_at' => $data['published_at'],
+            'updated_at' => $data['updated_at'],
+            'updated_by' => $data['updated_by'],
+            'entry_id' => $entryId,
+            'user_id' => $userId,
+        ]);
     }
 
     public function softDelete(int $entryId, int $userId): void
