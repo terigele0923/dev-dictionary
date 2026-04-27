@@ -6,6 +6,8 @@ use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\DictionaryController;
 use App\Controllers\HomeController;
+use App\Controllers\MemoFieldController;
+use App\Controllers\MemoTypeController;
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', [AuthController::class, 'login']);
@@ -25,3 +27,13 @@ $router->get('/dictionary/history/show', [DictionaryController::class, 'historyS
 
 $router->get('/categories', [CategoryController::class, 'index']);
 $router->post('/categories/store', [CategoryController::class, 'store']);
+$router->post('/categories/update', [CategoryController::class, 'update']);
+$router->post('/categories/delete', [CategoryController::class, 'delete']);
+$router->get('/memo-fields', [MemoFieldController::class, 'index']);
+$router->post('/memo-fields/store', [MemoFieldController::class, 'store']);
+$router->post('/memo-fields/update', [MemoFieldController::class, 'update']);
+$router->post('/memo-fields/delete', [MemoFieldController::class, 'delete']);
+$router->get('/memo-types', [MemoTypeController::class, 'index']);
+$router->post('/memo-types/store', [MemoTypeController::class, 'store']);
+$router->post('/memo-types/update', [MemoTypeController::class, 'update']);
+$router->post('/memo-types/delete', [MemoTypeController::class, 'delete']);

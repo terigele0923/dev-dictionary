@@ -9,6 +9,7 @@ use PDO;
 final class Database
 {
     private static ?PDO $pdo = null;
+    private static bool $schemaEnsured = false;
 
     public static function connection(): PDO
     {
@@ -32,6 +33,7 @@ final class Database
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]);
+            self::ensureSchema();
             return self::$pdo;
         }
 
@@ -49,7 +51,18 @@ final class Database
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]);
         self::$pdo->exec('PRAGMA foreign_keys = ON');
+        self::ensureSchema();
 
         return self::$pdo;
+    }
+
+    private static function ensureSchema(): void
+    {
+        if (self::$schemaEnsured || !self::$pdo instanceof PDO) {
+            return;
+        }
+
+        SchemaManager::ensure(self::$pdo);
+        self::$schemaEnsured = true;
     }
 }

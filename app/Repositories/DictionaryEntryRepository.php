@@ -8,15 +8,20 @@ final class DictionaryEntryRepository extends BaseRepository
 {
     public function paginateByUser(int $userId, array $filters): array
     {
-        $sql = 'SELECT e.*, c.category_name
+        $sql = 'SELECT e.*, c.category_name, mt.type_name AS memo_type_name, mt.display_mode AS memo_type_display_mode, mt.input_mode AS input_mode
                 FROM dictionary_entries e
                 LEFT JOIN categories c ON c.category_id = e.category_id
+                LEFT JOIN memo_types mt ON mt.memo_type_id = e.memo_type_id
                 WHERE e.user_id = :user_id AND e.deleted_at IS NULL';
         $params = ['user_id' => $userId];
 
         if (!empty($filters['category_id'])) {
             $sql .= ' AND e.category_id = :category_id';
             $params['category_id'] = (int) $filters['category_id'];
+        }
+        if (!empty($filters['memo_type_id'])) {
+            $sql .= ' AND e.memo_type_id = :memo_type_id';
+            $params['memo_type_id'] = (int) $filters['memo_type_id'];
         }
         if (!empty($filters['status'])) {
             $sql .= ' AND e.status = :status';
@@ -39,9 +44,10 @@ final class DictionaryEntryRepository extends BaseRepository
 
     public function findForOwner(int $entryId, int $userId): ?array
     {
-        $sql = 'SELECT e.*, c.category_name
+        $sql = 'SELECT e.*, c.category_name, mt.type_name AS memo_type_name, mt.display_mode AS memo_type_display_mode, mt.input_mode AS input_mode
                 FROM dictionary_entries e
                 LEFT JOIN categories c ON c.category_id = e.category_id
+                LEFT JOIN memo_types mt ON mt.memo_type_id = e.memo_type_id
                 WHERE e.entry_id = :entry_id AND e.user_id = :user_id AND e.deleted_at IS NULL LIMIT 1';
         $stmt = $this->pdo()->prepare($sql);
         $stmt->execute(['entry_id' => $entryId, 'user_id' => $userId]);
@@ -64,11 +70,11 @@ final class DictionaryEntryRepository extends BaseRepository
     public function create(array $data): int
     {
         $sql = 'INSERT INTO dictionary_entries (
-                    user_id, category_id, title, slug, problem_summary, root_cause, check_points, command_examples,
+                    user_id, memo_type_id, category_id, title, slug, problem_summary, root_cause, check_points, command_examples,
                     solution_summary, caution_notes, status, priority_level, version_no, published_at, created_at,
                     created_by, updated_at, updated_by
                 ) VALUES (
-                    :user_id, :category_id, :title, :slug, :problem_summary, :root_cause, :check_points, :command_examples,
+                    :user_id, :memo_type_id, :category_id, :title, :slug, :problem_summary, :root_cause, :check_points, :command_examples,
                     :solution_summary, :caution_notes, :status, :priority_level, :version_no, :published_at, :created_at,
                     :created_by, :updated_at, :updated_by
                 )';
@@ -80,6 +86,7 @@ final class DictionaryEntryRepository extends BaseRepository
     public function update(int $entryId, int $userId, array $data): void
     {
         $sql = 'UPDATE dictionary_entries SET
+                    memo_type_id = :memo_type_id,
                     category_id = :category_id,
                     title = :title,
                     slug = :slug,
@@ -98,6 +105,7 @@ final class DictionaryEntryRepository extends BaseRepository
                 WHERE entry_id = :entry_id AND user_id = :user_id AND deleted_at IS NULL';
         $stmt = $this->pdo()->prepare($sql);
         $stmt->execute([
+            'memo_type_id' => $data['memo_type_id'],
             'category_id' => $data['category_id'],
             'title' => $data['title'],
             'slug' => $data['slug'],

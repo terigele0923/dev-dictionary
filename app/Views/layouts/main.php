@@ -29,6 +29,19 @@
         .inline { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .badge { display:inline-block; padding:4px 10px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:12px; }
         pre { white-space:pre-wrap; background:#111827; color:#f9fafb; padding:16px; border-radius:10px; }
+        .checkbox-list { display:grid; gap:10px; }
+        .checkbox-item { border:1px solid #e5e7eb; border-radius:10px; padding:12px; }
+        .detail-hero { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-bottom:18px; }
+        .detail-title { margin:0 0 8px; font-size:28px; line-height:1.2; }
+        .detail-meta { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:18px; }
+        .detail-meta-item { background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:14px; }
+        .detail-meta-label { display:block; color:#6b7280; font-size:12px; margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em; }
+        .detail-meta-value { font-size:15px; font-weight:600; }
+        .detail-sections { display:grid; gap:14px; }
+        .detail-section { border:1px solid #e5e7eb; border-radius:12px; padding:16px; background:#fff; }
+        .detail-section-title { margin:0 0 10px; font-size:16px; }
+        .detail-section-value { line-height:1.7; white-space:pre-wrap; }
+        .detail-footer { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
     </style>
 </head>
 <body>
@@ -39,6 +52,8 @@
             <a href="/dictionary">辞書一覧</a>
             <a href="/dictionary/create">新規登録</a>
             <a href="/categories">カテゴリ</a>
+            <a href="/memo-fields">項目</a>
+            <a href="/memo-types">メモタイプ</a>
             <span><?= e($authUser['user_name']) ?></span>
             <form method="post" action="/logout" onsubmit="return confirm('ログアウトしますか？');" style="margin:0;">
                 <?= csrf_field() ?>
