@@ -15,6 +15,15 @@
             </select>
         </div>
         <div>
+            <label>メモタイプ</label>
+            <select name="memo_type_id">
+                <option value="">すべて</option>
+                <?php foreach ($memoTypes as $memoType): ?>
+                    <option value="<?= e($memoType['memo_type_id']) ?>" <?= (string)($filters['memo_type_id'] ?? '') === (string)$memoType['memo_type_id'] ? 'selected' : '' ?>><?= e($memoType['type_name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
             <label>ステータス</label>
             <select name="status">
                 <option value="">すべて</option>
@@ -40,13 +49,14 @@
 <div class="card">
     <table>
         <thead>
-            <tr><th>ID</th><th>カテゴリ</th><th>タイトル</th><th>ステータス</th><th>優先度</th><th>更新日時</th><th>操作</th></tr>
+            <tr><th>ID</th><th>カテゴリ</th><th>メモタイプ</th><th>タイトル</th><th>ステータス</th><th>優先度</th><th>更新日時</th><th>操作</th></tr>
         </thead>
         <tbody>
         <?php foreach ($entries as $entry): ?>
             <tr>
                 <td><?= e($entry['entry_id']) ?></td>
                 <td><?= e($entry['category_name']) ?></td>
+                <td><?= e($entry['memo_type_name'] ?? '-') ?></td>
                 <td><a href="/dictionary/show?id=<?= e($entry['entry_id']) ?>"><?= e($entry['title']) ?></a></td>
                 <td><span class="badge"><?= e($entry['status']) ?></span></td>
                 <td><?= e($entry['priority_level']) ?></td>
@@ -59,7 +69,7 @@
             </tr>
         <?php endforeach; ?>
         <?php if (empty($entries)): ?>
-            <tr><td colspan="7">データがありません。</td></tr>
+            <tr><td colspan="8">データがありません。</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
