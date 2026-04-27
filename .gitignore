@@ -11,3 +11,6 @@ Thumbs.db
 
 .idea/
 .vscode/
+
+config/database.php
+.env
